@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Application</title>
+  
+  <!-- Bootstrap for styling -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f4f4f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .weather-container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .weather-info {
+      margin-top: 20px;
+    }
+
+    .loading {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="weather-container">
+    <h2 class="text-center">Weather Application</h2>
+    <form id="weatherForm">
+      <div class="mb-3">
+        <label for="city" class="form-label">Enter City Name:</label>
+        <input type="text" class="form-control" id="city" placeholder="e.g., Pune" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Get Weather</button>
+    </form>
+
+    <div class="weather-info">
+      <h3 id="cityName" class="text-center mt-4"></h3>
+      <div id="weatherDetails" class="text-center mt-3"></div>
+      <div id="errorMessage" class="text-center mt-3 text-danger"></div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.getElementById('weatherForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Get city name entered by user
+      const city = document.getElementById('city').value.trim();
+      if (city === '') {
+        alert('Please enter a city name.');
+        return;
+      }
+
+      // Clear previous data
+      document.getElementById('weatherDetails').innerHTML = '';
+      document.getElementById('errorMessage').innerHTML = '';
+
+      // Show loading message
+      document.getElementById('weatherDetails').innerHTML = '<div class="loading"><p>Loading...</p></div>';
+
+      // Simulate fetching data from a local repository
+      setTimeout(function() {
+        const weatherData = getWeatherData(city);
+        
+        if (weatherData) {
+          // Display the weather details
+          document.getElementById('cityName').innerHTML = `Weather in ${city.charAt(0).toUpperCase() + city.slice(1)}`;
+          document.getElementById('weatherDetails').innerHTML = `
+            <p><strong>Temperature:</strong> ${weatherData.temperature}°C</p>
+            <p><strong>Humidity:</strong> ${weatherData.humidity}%</p>
+            <p><strong>Condition:</strong> ${weatherData.condition}</p>
+          `;
+        } else {
+          // Display error if city is not found
+          document.getElementById('errorMessage').innerHTML = `City '${city}' not found. Please try again.`;
+        }
+      }, 1000); // Simulate AJAX call delay
+    });
+
+    // Local repository with city weather data
+    function getWeatherData(city) {
+      const weatherDataMap = {
+        "pune": { temperature: 30, humidity: 70, condition: "Sunny" },
+        "mumbai": { temperature: 32, humidity: 80, condition: "Rainy" },
+        "delhi": { temperature: 35, humidity: 50, condition: "Clear Sky" },
+        "bangalore": { temperature: 28, humidity: 65, condition: "Partly Cloudy" },
+        "kolkata": { temperature: 33, humidity: 75, condition: "Thunderstorms" }
+      };
+
+      city = city.toLowerCase();
+      return weatherDataMap[city] || null;  // Return null if city not found
+    }
+  </script>
+
+</body>
+</html>

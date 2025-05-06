@@ -1,0 +1,18 @@
+{
+    "Pune": {
+      "temperature": "32°C",
+      "humidity": "60%",
+      "condition": "Sunny"
+    },
+    "Mumbai": {
+      "temperature": "30°C",
+      "humidity": "70%",
+      "condition": "Cloudy"
+    },
+    "Delhi": {
+      "temperature": "35°C",
+      "humidity": "40%",
+      "condition": "Hot"
+    }
+  }
+  
